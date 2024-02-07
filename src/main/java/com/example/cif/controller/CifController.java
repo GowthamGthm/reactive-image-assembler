@@ -30,19 +30,19 @@ public class CifController {
     AtomicInteger integer = new AtomicInteger(0);
 
     @PostMapping("/insert")
-    public Mono<CifRequest> assemble(@RequestBody CifRequest cifRequest) {
+    public Mono<CifRequest> insert(@RequestBody CifRequest cifRequest) {
          System.out.println("request number is : " + integer.incrementAndGet());
-         return   cifService.assemble(cifRequest);
+         return cifService.assemble(cifRequest);
     }
 
     @PostMapping("/assemble")
-    public Flux<String> testAssemble(@RequestBody CifRequest request) {
+    public Flux<String> assemble(@RequestBody CifRequest request) {
         return cifService.processFinalSteps(request);
     }
 
 
     @PostMapping("/get-all")
-    public Flux<CifRequest> testAssemble1(@RequestBody CifRequest request) {
+    public Flux<CifRequest> getAll(@RequestBody CifRequest request) {
         return redisImpl.getAllForKeys(AppUtils.getKeyForRequest(request));
     }
 

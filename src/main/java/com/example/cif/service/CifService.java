@@ -36,6 +36,7 @@ public class CifService {
     private Mono<CifRequest> processFirstFragment(CifRequest cifRequest) {
 
         return redisImpl.insert(cifRequest , AppUtils.getKeyForRequest(cifRequest))
+                .doFirst(() -> log.info("saving the firstFragment"))
                 .map(ele -> cifRequest);
 
     }
@@ -43,12 +44,14 @@ public class CifService {
     private Mono<CifRequest> processLastFragment(CifRequest cifRequest) {
 
         return redisImpl.insert(cifRequest , AppUtils.getKeyForRequest(cifRequest))
+                .doFirst(() -> log.info("saving the lastFragment"))
                 .map(ele -> cifRequest);
 
     }
 
     private Mono<CifRequest> processSecondFragment(CifRequest cifRequest) {
         return redisImpl.insert(cifRequest,AppUtils.getKeyForRequest(cifRequest))
+                .doFirst(() -> log.info("saving the secondFragment"))
                 .map(e -> cifRequest);
     }
 
@@ -66,7 +69,7 @@ public class CifService {
                         .flatMap(ele1 -> {
                             if (AppUtils.calculateSHA256Hash(ele1).equalsIgnoreCase(ele.getMetadata().getHash())) {
                                 log.info("Hash matched");
-                                AppUtils.writeToFile(ele1);
+                                AppUtils.writeToFile(ele1 , ele.getMetadata().getFileName());
                                 return Mono.just("Hash Matched");
                             } else {
                                 log.info("Hash Not matched");

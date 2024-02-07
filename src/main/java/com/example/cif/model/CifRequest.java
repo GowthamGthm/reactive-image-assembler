@@ -14,7 +14,8 @@ import java.util.HashMap;
 @RedisHash
 public class CifRequest {
 
-    private Double identifier;
+    private String identifier;
+
     private Long chunkNumber;
     private String chunk;
     MetaData metadata;

@@ -6,6 +6,7 @@ import lombok.experimental.UtilityClass;
 import net.bytebuddy.utility.RandomString;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -94,7 +95,7 @@ public class Utils {
 
     public List<CifRequest> prepareData(String fileName) {
 
-        Double identifier = Math.random();
+        String identifier = RandomStringUtils.randomNumeric(20);
 
         String base64 = getBase64(fileName);
         String[] chunks = splitBase64(base64);
@@ -129,7 +130,7 @@ public class Utils {
     }
 
 
-    public CifRequest buildFirstRequest(String hash , Double identifier) {
+    public CifRequest buildFirstRequest(String hash , String identifier) {
         MetaData metadata = MetaData.builder()
                 .first(true)
                 .hash(hash)
@@ -140,7 +141,7 @@ public class Utils {
                 .build();
     }
 
-    public CifRequest buildLastRequest(Double identifer) {
+    public CifRequest buildLastRequest(String identifer) {
         MetaData metadata = MetaData.builder()
                 .finall(true)
                 .build();

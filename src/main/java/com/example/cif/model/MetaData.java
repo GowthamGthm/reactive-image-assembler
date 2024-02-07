@@ -15,4 +15,5 @@ public class MetaData {
     boolean finall;
 
     String hash;
+    String fileName;
 }
