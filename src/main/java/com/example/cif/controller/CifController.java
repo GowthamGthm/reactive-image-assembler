@@ -2,6 +2,7 @@ package com.example.cif.controller;
 
 import com.example.cif.model.CifRequest;
 import com.example.cif.repository.RedisImpl;
+import com.example.cif.service.CifFluxService;
 import com.example.cif.service.CifService;
 import com.example.cif.utils.AppUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,10 @@ public class CifController {
     @Autowired
     RedisImpl redisImpl;
 
+    @Autowired
+    CifFluxService cifFluxService;
+
+
     AtomicInteger integer = new AtomicInteger(0);
 
     @PostMapping("/insert")
@@ -47,4 +52,13 @@ public class CifController {
     }
 
 
+    @PostMapping("/insert-flux")
+    public Flux<CifRequest> insert1(@RequestBody Flux<CifRequest> cifRequestFlux) {
+       return  cifFluxService.generateDataForImages(cifRequestFlux);
+    }
+
+    @PostMapping("/do-all")
+    public Flux<String> doAll(@RequestBody Flux<CifRequest> cifRequestFlux) {
+        return  cifFluxService.doAll(cifRequestFlux);
+    }
 }
